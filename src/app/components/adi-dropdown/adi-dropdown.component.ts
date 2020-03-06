@@ -70,7 +70,6 @@ export class AdiDropdownComponent implements OnInit {
     this.collapseMenu();
   }
 
-  // ArrowDown ArrowUp event to navigate the list
   keyboardNavigation(arrow: string) {
     const list = document.querySelector('.option-list');
     const length = list.childElementCount - 1;
