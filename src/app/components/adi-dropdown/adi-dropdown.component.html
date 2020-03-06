@@ -1,0 +1,20 @@
+<div 
+(click)="onClick()"
+(keydown)="onKeyPress($event)" 
+(blur)="collapseMenu()"
+class="drop-container" 
+tabindex="0">
+  <i class="material-icons">arrow_drop_down</i>
+  <span>{{ selectedOption }}</span>
+</div>
+<ul 
+[style.display]="open ? '' : 'none'" class="option-list">
+  <li 
+  *ngFor="let option of options; first as isFirst" 
+  (click)="onOptionClick($event)"
+  (keydown)="onKeyPress($event)"
+  class="option"
+  [class.active]="isFirst">
+    {{ option }}
+  </li>
+</ul>

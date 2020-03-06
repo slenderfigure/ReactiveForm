@@ -1,0 +1,9 @@
+.custom-form {
+  max-width: 500px;
+  height: auto;
+  margin: 10rem auto 0;
+}
+
+.custom-form button {
+  margin-top: 2.5rem;
+}
