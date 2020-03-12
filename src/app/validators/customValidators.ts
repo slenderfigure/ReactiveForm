@@ -9,7 +9,7 @@ export class altValidators {
   }
 
   static phone(control: FormControl) {
-    const format = /^[1]?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/;
+    const format = /^[1]?[-.\s]?(\(\d{3}\)|\d{3})[-.\s]?\d{3}[-.\s]?\d{4}$/;
 
     return control.value == '' || format.test(control.value) ?
       null : { phone: { requiredFormat: format, actualValue: control.value } }
