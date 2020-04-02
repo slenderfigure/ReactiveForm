@@ -52,7 +52,24 @@
   0 1px 20px rgba(136, 136, 136, 0.3);
   user-select: none;
   overflow: auto;
+  scrollbar-width: 0;
+  -ms-overflow-style: none;
   z-index: 2;
+}
+
+.option-list::-webkit-scrollbar {
+  display: none;
+}
+
+.option-list .scrollbar {
+  display: block;
+  position: absolute;
+  right: 0.4rem;
+  top: 0;
+  width: 3px;
+  height: 150px;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
 }
 
 .collapse {
@@ -68,7 +85,6 @@
   color: #444;
   font-size: 0.85rem; 
   line-height: 2.125rem;
-  /* transition: background-color 0.2s ease-in-out; */
   cursor: pointer;
 }
 
