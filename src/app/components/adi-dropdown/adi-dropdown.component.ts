@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { ViewChild, ViewChildren, ElementRef, QueryList } from '@angular/core';
 
 @Component({
   selector: 'adi-dropdown',
@@ -6,12 +7,15 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
   styleUrls: ['./adi-dropdown.component.css']
 })
 export class AdiDropdownComponent implements OnInit {
+  @ViewChildren('options') _options: QueryList<ElementRef>
+  @ViewChild('OptionList') OptionList: ElementRef;
+  @Output() selected = new EventEmitter<string>();
+  @Input() options: any[];
   open: boolean = false;
   hide: boolean = false;
   selectedOption: string = '';
-  optionIndex = 0;
-  @Output() selected = new EventEmitter<string>();
-  @Input() options: any[];
+  optionIndex: number = 0;
+  
 
   constructor() { }
 
@@ -20,7 +24,7 @@ export class AdiDropdownComponent implements OnInit {
 
   collapseMenu() {
     if (this.open) {
-      const list = document.querySelector('.option-list');
+      const list = <HTMLElement>this.OptionList.nativeElement;
 
       list.classList.add('collapse');
       setTimeout(() => {
@@ -30,22 +34,29 @@ export class AdiDropdownComponent implements OnInit {
     }
   }
 
-  onKeyPress(event) {
+  onKeyPress(event: KeyboardEvent) {
     event.preventDefault();
+
     switch(event.key) {
       case 'Enter':
         this.onClick();
         break;
+
       case 'Escape':
       case 'Tab':
         this.collapseMenu();
         break;      
+
       case 'ArrowDown':
         this.keyboardNavigation('down');
         break;
+
       case 'ArrowUp':
         this.keyboardNavigation('up');
         break;
+      
+      default:
+        return;
     }
   }
 
@@ -55,23 +66,25 @@ export class AdiDropdownComponent implements OnInit {
   }
 
   clearActiveOption() {
-    let options = Array.from(document.querySelectorAll('.option'));
+    const options = this._options.toArray()
+      .map(option => option.nativeElement);
     options.map(option => option.classList.remove('active'));
   }
 
-  onOptionClick(event) {
-    let options = Array.from(document.querySelectorAll('.option'));
+  onOptionClick(option: HTMLElement) {
+    const options = this._options.toArray()
+      .map(option => option.nativeElement);
 
     this.clearActiveOption();
-    event.target.classList.add('active');
-    this.optionIndex = options.indexOf(event.target);
-    this.selectedOption = event.target.textContent;
+    option.classList.add('active');
+    this.optionIndex = options.indexOf(option);
+    this.selectedOption = option.textContent;
     this.selected.emit(this.selectedOption);
     this.collapseMenu();
   }
 
   keyboardNavigation(arrow: string) {
-    const list = document.querySelector('.option-list');
+    const list = <HTMLElement>this.OptionList.nativeElement;
     const length = list.childElementCount - 1;
 
     if(arrow === 'down') {
@@ -86,7 +99,8 @@ export class AdiDropdownComponent implements OnInit {
     this.clearActiveOption();
     this.selectedOption = list.children[this.optionIndex].
       textContent;
-    this.selected.emit(this.selectedOption);
     list.children[this.optionIndex].classList.add('active');
+    list.children[this.optionIndex].scrollIntoView({ behavior: 'smooth' });
+    this.selected.emit(this.selectedOption);
   }
 }

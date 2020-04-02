@@ -8,10 +8,12 @@ tabindex="0">
   <span>{{ selectedOption }}</span>
 </div>
 <ul 
+#OptionList
 [style.display]="open ? '' : 'none'" class="option-list">
   <li 
+  #options
   *ngFor="let option of options; first as isFirst" 
-  (click)="onOptionClick($event)"
+  (click)="onOptionClick(options)"
   (keydown)="onKeyPress($event)"
   class="option"
   [class.active]="isFirst">
