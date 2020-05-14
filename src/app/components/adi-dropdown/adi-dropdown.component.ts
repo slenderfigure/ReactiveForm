@@ -13,7 +13,7 @@ export class AdiDropdownComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollbar') private scrollbar: ElementRef;
   @Output() selected = new EventEmitter<string>();
   @Input() options: any[];
-  open: boolean = true;
+  open: boolean = false;
   hide: boolean = false;
   selectedOption: string = '';
   private optionIndex: number = 0;
